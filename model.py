@@ -9,10 +9,9 @@ class Model(tf.keras.Model):
         # self.conv32 = tf.keras.layers.Conv2D(32, 3, activation="relu", padding="same")
         # self.conv64 = tf.keras.layers.Conv2D(64, 3, activation="relu", padding="same")
         # self.conv128 = tf.keras.layers.Conv2D(128, 3, activation="relu", padding="same")
-
-        self.sep_conv32 = tf.keras.layers.SeparableConv2D(32, 3, activation="relu", padding="same")
-        self.sep_conv64 = tf.keras.layers.SeparableConv2D(64, 3, activation="relu", padding="same")
-        self.sep_conv128 = tf.keras.layers.SeparableConv2D(128, 3, activation="relu", padding="same")
+        self.separalbe_conv32 = tf.keras.layers.SeparableConv2D(32, 3, activation="relu", padding="same")
+        self.separalbe_conv64 = tf.keras.layers.SeparableConv2D(64, 3, activation="relu", padding="same")
+        self.separalbe_conv128 = tf.keras.layers.SeparableConv2D(128, 3, activation="relu", padding="same")
 
     def call(self, input):
         pass
