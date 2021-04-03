@@ -71,3 +71,5 @@ class Model(tf.keras.Model):
         x = self.dese_cn(x)
 
         return x
+
+model = Model()
