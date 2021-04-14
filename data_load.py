@@ -1,18 +1,18 @@
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 import tensorflow as tf
-from setup import AUTOTUNE, BATCH_SIZE, IMAGE_SIZE, EPOCHS
+from setup import AUTOTUNE, BATCH_SIZE, IMAGE_SIZE
 
 # 경증 치매, 중증도 치매, 비 치매, 매우 경미한 치매
-CLASS_NAMES = ["MildDementia", "ModerateDementia", "NonDementia", "VeryMildDementia"]
+CLASS_NAMES = ['MildDementia', 'ModerateDementia', 'NonDementia', 'VeryMildDementia']
 NUM_CLASSES = len(CLASS_NAMES)
 
-def one_hot_label(image, label):
-    label = tf.one_hot(label, NUM_CLASSES)
-    return image, label
-
+# 데이터셋의 label별로 나누어져 저장되어 있다.
+# 즉, 이미 사전적으로 분류되어 있는 데이터셋이기에
+# tf.keras의 전처리 기능을 이용해서 이미지를 loading
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     "./dataset/train",
+    labels='inferred',
     validation_split=0.2,
     subset="training",
     seed=1234,
@@ -20,11 +20,10 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     batch_size=BATCH_SIZE
 )
 train_ds.class_names = CLASS_NAMES
-train_ds = train_ds.map(one_hot_label, num_parallel_calls=AUTOTUNE)
-train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     "./dataset/train",
+    labels='inferred',
     validation_split=0.2,
     subset="validation",
     seed=1234,
@@ -32,5 +31,3 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     batch_size=BATCH_SIZE
 )
 val_ds.class_names = CLASS_NAMES
-val_ds = val_ds.map(one_hot_label, num_parallel_calls=AUTOTUNE)
-val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
